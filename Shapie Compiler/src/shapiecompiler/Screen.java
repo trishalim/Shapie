@@ -12,9 +12,9 @@ public class Screen extends JFrame{
 	static int height = 600, width = 1000, padding = 10;
 	static JTextArea codeArea;
 	MouseAdapter listener;
-	static Output output = new Output();
-	static JPanel code = new JPanel();
-	static JPanel container = new JPanel();
+	static JPanel container;
+	static Output output;
+
 	public Screen() {
 		listener = new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -23,16 +23,16 @@ public class Screen extends JFrame{
         };
 		
         //JPanel containing code and output panels
-		
+		container = new JPanel();
 		container.setLayout(null);
 		
 		//Left JPanel for Code
-		
+		JPanel code = new JPanel();
 		code.setLayout(null);
 		code.setBackground(Color.white);
 		code.setBounds(padding, padding, width/2-50, height-70);
 		codeArea = new JTextArea();
-		codeArea.setBorder(BorderFactory.createLineBorder(Color.red));
+		codeArea.setBorder(BorderFactory.createLineBorder(Color.PINK));
 		codeArea.setBounds(padding, padding, 420,height-140);
 		code.add(codeArea);
 		JButton runBtn = new JButton("Run");
@@ -41,15 +41,23 @@ public class Screen extends JFrame{
 		code.add(runBtn);
 		container.add(code);
 		
+		//Right JPanel for Output
+		output = new Output();
+		
+		
 		add(container);
 		setSize(width,height);
 		setVisible(true);
 	}
 	
 	public void runBtnClicked(MouseEvent evt) {
+		setOutput();
 		Shapie.checkCode(codeArea.getText());
-		output.setBackground(Color.white);
+	}
+	
+	public void setOutput() {
 		output.setBounds(width/2+padding, padding, width/2-50, height-70);
 		container.add(output);
+		output.redraw();
 	}
 }

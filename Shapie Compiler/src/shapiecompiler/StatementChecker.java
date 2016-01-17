@@ -8,7 +8,7 @@ public class StatementChecker {
     static Pattern numReg = Pattern.compile("(a|\\d)");
     static Pattern shapeReg = Pattern.compile("(circle|square|triangle)");
     static Pattern pluralReg = Pattern.compile("(circles|squares|triangles)");
-    static Pattern colorReg = Pattern.compile("(red|blue|yellow)");
+    static Pattern colorReg = Pattern.compile("(red|blue|yellow|pink|green)");
     static Pattern sizeReg = Pattern.compile("(small|big)");
     static Pattern posReg = Pattern.compile("(everywhere|\\(\\d,\\d\\))");
     static Pattern variableReg = Pattern.compile("([\"][a-zA-Z_$][a-zA-Z_$0-9][\"]*$)");
@@ -27,14 +27,14 @@ public class StatementChecker {
         
         int matched = matches(s);
         
-        Put p = new Put();
+        //Put p = new Put();
         
-        String num, size, color, shape, position, variable, plural, text;
+        //String num, size, color, shape, position, variable, plural, text;
         
         //INITIALIZE VARIABLES ABOVE
         
         if(matched==0||matched==2||matched==3||matched==6) {
-            p.putShape("center", "black", "yeah", "yeah", "boom");
+            //p.putShape("small", "pink", "circle", "center", "");
         } else if (matched==1) {
         	//p.putShapes(num, size, color, shape, position, variable);
         } else if (matched==4||matched==5) {
@@ -43,10 +43,8 @@ public class StatementChecker {
     }
     
     public static int matches(String s) {
-        boolean match = false;
         for (int i=0; i<7; i++) {
             if(cases[i].matcher(s).matches()){
-                match =true;
                 return i;
             }
         }
