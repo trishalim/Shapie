@@ -1,0 +1,12 @@
+
+1 Put a small blue triangle. [5] 1 -done
+2 Put 5 small blue squares everywhere. [6] 1 -done
+3 Put a small blue triangle in (1,0). [7] 1 -havent checked position
+4 Put a small blue triangle in (1,0) named "blue_triangle". [9] 2 -check variable name only
+5 Put a big red "Hello World!" named "redText". [7]  4 - done
+6 Put a big red "Hello World!" named "redText" in (1,0). [9] 5
+
+7 Put a small blue triangle named "hello". [7] 2 -done
+
+Put a small blue triangle.
+Put 5 small blue squares everywhere.

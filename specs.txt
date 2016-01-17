@@ -1,0 +1,49 @@
+MEMBERS:
+Lim, Trisha Jean
+Palmaras, Joseph Gabriell
+Vidal, Sonia Margarette
+
+DESCRIPTION:
+This programming language teaches some programming concepts to children through a syntax very close to natural language. Objects are placed in a grid.
+
+FEATURES:
+Draw shapes (circle, square, rectangle, triangle)
+Display text
+Define size of objects (small, big)
+Define position of objects (x,y)
+Define color of objects (red, orange, yellow, green, blue, violet, pink, brown, black, white, gray)
+
+FUNCTIONS:
+Put //display
+Color //set color
+Resize //set size
+Place //set position
+
+KEYWORDS:
+a //equal to 1
+to //assignment operator
+all shapes, colors, sizes
+background //background color of the output screen
+named //defines object name
+above //places object above another object
+below //places object below another object
+before //places object to the left of another object
+after //places object to the right of another object
+
+DEFAULTS:
+position: center of output screen
+size: small
+color: black
+background: white
+
+RULES:
+Statements must end in a period (.) and start with a function call.
+
+SAMPLE CODE:
+Color background to yellow.
+Put a small blue square named "square1" in (2,0). 
+Put a big red "Hello World!" named "redText". //displays "Hello World!" in the center of the output screen
+Place redText to (1,1). 
+Put a big triangle above square1 named "triangle1".  
+Color triangle1 to green.
+Resize triangle1 to small.
