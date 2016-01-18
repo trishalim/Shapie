@@ -27,18 +27,18 @@ public class StatementChecker {
         
         int matched = matches(s);
         
-        //Put p = new Put();
+        Put p = new Put();
         
         //String num, size, color, shape, position, variable, plural, text;
         
         //INITIALIZE VARIABLES ABOVE
         
         if(matched==0||matched==2||matched==3||matched==6) {
-            //p.putShape("small", "pink", "circle", "center", "");
+            p.putShape("small", "pink", "circle", "center", "");
         } else if (matched==1) {
         	//p.putShapes(num, size, color, shape, position, variable);
         } else if (matched==4||matched==5) {
-            //p.putText(size, color, text, variable);
+            //p.putText(size, color, text, variable, position);
         }
     }
     

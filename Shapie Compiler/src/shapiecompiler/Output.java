@@ -1,6 +1,8 @@
 package shapiecompiler;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -25,7 +27,6 @@ public class Output extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
         g2d = (Graphics2D) g;
-        System.out.println("boom");
         for(int i=0; i < ObjectList.size(); i++){
         	if(ObjectList.get(i).type == 's'){        		
         		drawSquare(ObjectList.get(i));
@@ -36,6 +37,9 @@ public class Output extends JPanel{
         	else if(ObjectList.get(i).type == 't'){        		
         		drawTriangle(ObjectList.get(i));
         	}
+        	else if(ObjectList.get(i).type == 'x'){        		
+        		displayText(ObjectList.get(i));
+        	}
         }
         //draw all elements stored in objectlist
 	}
@@ -43,22 +47,37 @@ public class Output extends JPanel{
 	public void drawCircle(Object obj){
 		g2d.setColor(getColor(obj.color));
 		if(obj.size == "big")
-			g2d.fillOval(obj.x, obj.y, bigS, bigS);
+			g2d.fillOval(obj.x - (bigS/2), obj.y - (bigS/2), bigS, bigS);
 		else if(obj.size == "small")
-			g2d.fillOval(obj.x, obj.y, smallS, smallS);
+			g2d.fillOval(obj.x - (smallS/2), obj.y - (smallS/2), smallS, smallS);
 	}
 	
 	public void drawSquare(Object obj){
 		g2d.setColor(getColor(obj.color));
 		if(obj.size == "big")
-			g2d.fillRect(obj.x, obj.y, bigS, bigS);
+			g2d.fillRect(obj.x - (bigS/2), obj.y - (bigS/2), bigS, bigS);
 		else if(obj.size == "small")
-			g2d.fillRect(obj.x, obj.y, smallS, smallS);
+			g2d.fillRect(obj.x - (smallS/2), obj.y - (smallS/2), smallS, smallS);
 	}
 	
 	public void drawTriangle(Object obj){
+		g2d.setColor(getColor(obj.color));		
+		if(obj.size == "big")
+			g2d.fillPolygon(new int[]{obj.x - (bigS/2), obj.x, obj.x + (bigS/2)}, new int[]{obj.y + (bigS/2), obj.y - (bigS/2), obj.y + (bigS/2)}, 3);
+		else if(obj.size == "small")
+			g2d.fillPolygon(new int[]{obj.x - (smallS/2), obj.x, obj.x + (smallS/2)}, new int[]{obj.y + (smallS/2), obj.y - (smallS/2), obj.y + (smallS/2)}, 3);
+	}
+	
+	public void displayText(Object obj){
 		g2d.setColor(getColor(obj.color));
-		g2d.fillPolygon(new int[]{this.getWidth()/2 - 50, this.getWidth()/2, this.getWidth()/2 + 50}, new int[]{this.getHeight()/2 + 50, this.getHeight()/2 - 50, this.getHeight()/2 + 50}, 3);
+		String text = obj.value;
+		int size = (obj.size == "big") ? 48 : 36;
+		Font font = (new Font("Arial", Font.BOLD, size));
+	    FontMetrics metrics = g2d.getFontMetrics(font);
+	    int x = obj.x - (metrics.stringWidth(text) / 2);
+	    int y = (obj.y - (metrics.getHeight() / 2)) + metrics.getAscent();
+	    g2d.setFont(font);
+	    g2d.drawString(text, x, y);
 	}
 	
 	public Color getColor(String c){
