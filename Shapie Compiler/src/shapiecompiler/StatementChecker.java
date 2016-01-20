@@ -10,22 +10,30 @@ public class StatementChecker {
     static Pattern pluralReg = Pattern.compile("(circles|squares|triangles)");
     static Pattern colorReg = Pattern.compile("(red|blue|yellow|pink|green)");
     static Pattern sizeReg = Pattern.compile("(small|big)");
-    static Pattern posReg = Pattern.compile("(everywhere|\\(\\d,\\d\\))");
-    static Pattern variableReg = Pattern.compile("([\"][a-zA-Z_$][a-zA-Z_$0-9][\"]*$)");
-    static Pattern textReg = Pattern.compile("\\((.)\\)");
+    static Pattern posReg = Pattern.compile("(everywhere|\\(\\d,\\d)\\)");
+    static Pattern variableReg = Pattern.compile("\"([^\"]*)\"");
+    static Pattern textReg = Pattern.compile("(\"([^\"]*)\")");
     static Pattern[] cases;
     
     public static void check(String s) {
+    	String s2;
+    	boolean s2i=false;
+    	
     	cases = new Pattern[10];
         cases[0] = Pattern.compile ("Put a " + sizeReg + " " + colorReg + " " + shapeReg); //ok
         cases[1] = Pattern.compile ("Put " + numReg + " " + sizeReg + " " + colorReg + " " + pluralReg + " everywhere"); //ok
         cases[2] = Pattern.compile("Put a " + sizeReg + " " + colorReg + " " + shapeReg + " in " + posReg); //ok
         cases[3] = Pattern.compile("Put a " + sizeReg + " " + colorReg + " " + shapeReg + " in " + posReg + " named " + variableReg);  //ok
-        cases[4] = Pattern.compile("Put a " + sizeReg + " " + colorReg + " " + textReg + " named " + variableReg);
+        cases[4] = Pattern.compile("Put a " + sizeReg + " " + colorReg + " " + textReg + " named " + variableReg);// ok
         cases[5] = Pattern.compile("Put a " + sizeReg + " " + colorReg + " " + textReg + " named " + variableReg + " in " + posReg);
         cases[6] = Pattern.compile ("Put a " + sizeReg + " " + colorReg + " " + shapeReg + " named " + variableReg);//ok
+        cases[7] = Pattern.compile ("Put a " + colorReg + " " + shapeReg);
+        cases[8] = Pattern.compile ("Put a " + colorReg + " " + shapeReg + posReg);
+        cases[9] = Pattern.compile ("Put a " + colorReg + " " + shapeReg + " named " + variableReg);
         
         int matched = matches(s);
+        
+        System.out.println(matched);
         
         Put p = new Put();
         
