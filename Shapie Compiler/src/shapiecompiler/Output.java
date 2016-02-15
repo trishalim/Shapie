@@ -91,6 +91,7 @@ public class Output extends JPanel{
 		Color col;
 		switch (c){
 			case "": col = Color.black; break;
+			case "black": col = Color.black; break; 
 			case "red": col = Color.red; break;
 			case "blue": col = Color.blue; break;
 			case "pink": col = Color.PINK; break;
@@ -99,5 +100,10 @@ public class Output extends JPanel{
 			default : col = Color.WHITE; break;
 		}
 		return col;
+	}
+	public void changeBG(String col){
+		Color colorbg = getColor(col);
+		this.setBackground(colorbg);
+		this.redraw();
 	}
 }

@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class StatementChecker {
 	
-	static Pattern actionReg = Pattern.compile("(Put|Color|Place|Resize)");
+	static Pattern actionReg = Pattern.compile("(Put|Color|Place|Resize|Change)");
     static Pattern numReg = Pattern.compile("(a|\\d)");
     static Pattern shapeReg = Pattern.compile("(circle|square|triangle)");
     static Pattern pluralReg = Pattern.compile("(circles|squares|triangles)");
@@ -18,15 +18,15 @@ public class StatementChecker {
     
     public static void check(String s) {
     	cases = new Pattern[10];
-        cases[0] = Pattern.compile ("Put a " + sizeReg + " " + colorReg + " " + shapeReg); //ok
-        cases[1] = Pattern.compile ("Put " + numReg + " " + sizeReg + " " + colorReg + " " + pluralReg + " everywhere"); //ok
+        cases[0] = Pattern.compile ("Put a " + sizeReg + " " + colorReg + " " + shapeReg); //ok 
+        cases[1] = Pattern.compile ("Change background to "+ colorReg); //ok "Put " + numReg + " " + sizeReg + " " + colorReg + " " + pluralReg + " everywhere"
         cases[2] = Pattern.compile("Put a " + sizeReg + " " + colorReg + " " + shapeReg + " in " + posReg); //ok
         cases[3] = Pattern.compile("Put a " + sizeReg + " " + colorReg + " " + shapeReg + " in " + posReg + " named " + variableReg);  //ok
         cases[4] = Pattern.compile("Put a " + sizeReg + " " + colorReg + " " + textReg + " named " + variableReg);// ok
         cases[5] = Pattern.compile("Put a " + sizeReg + " " + colorReg + " " + textReg + " named " + variableReg + " in " + posReg);
         cases[6] = Pattern.compile ("Put a " + sizeReg + " " + colorReg + " " + shapeReg + " named " + variableReg);//ok
         cases[7] = Pattern.compile ("Put a " + colorReg + " " + shapeReg);
-        cases[8] = Pattern.compile ("Put a " + colorReg + " " + shapeReg + posReg);
+        cases[8] = Pattern.compile ("Put a " + colorReg + " " + shapeReg + " in " + posReg);
         cases[9] = Pattern.compile ("Put a " + colorReg + " " + shapeReg + " named " + variableReg);
         
         int matched = matches(s);
@@ -79,18 +79,36 @@ public class StatementChecker {
 		System.out.println("var" + var);
 		System.out.println("pos" + pos);
         Put p = new Put();
-        
+        Change c= new Change();
         //String num, size, color, shape, position, variable, plural, text;
         
         //INITIALIZE VARIABLES ABOVE
-        
-        if(matched==0||matched==2||matched==3||matched==6) {
-            p.putShape(size, color, shape, pos, var);
-        } else if (matched==1) {
-        	p.putShapes(num, size, color, shape, pos, var);
-        } else if (matched==4||matched==5) {
-            p.putText(size, color, text, var, pos);
-        }
+        if(action.matches("Put")){
+	        if(matched==0||matched==2||matched==3||matched==6) {
+	            p.putShape(size, color, shape, pos, var);
+	        } else if (matched==1) {
+	        	p.putShapes(num, size, color, shape, pos, var);
+	        } else if (matched==4||matched==5) {
+	            p.putText(size, color, text, var, pos);
+	        }
+    	}else if(action.matches("Place")){
+    		
+    	}else if(action.matches("Color")){
+    		
+    	}else if(action.matches("Resize")){
+    		
+    	}else if (action.matches("Change")) {
+			Matcher n = words.matcher(s);
+			while(n.find()){
+				n.group();
+				if(colorReg.matcher(n.group()).matches()) {
+					System.out.println("color");
+					color = n.group();
+				}
+			}	
+			c.changeBG(color);
+			System.out.println("Change background");
+		}
     }
     
     public static int matches(String s) {

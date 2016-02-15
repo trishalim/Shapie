@@ -62,4 +62,5 @@ public class Screen extends JFrame{
 		container.add(output);
 		output.redraw();
 	}
+	
 }
