@@ -3,6 +3,7 @@ package shapiecompiler;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -52,6 +53,7 @@ public class Screen extends JFrame{
 	
 	public void runBtnClicked(MouseEvent evt) {
 		setOutput();
+		Output.ObjectList = new ArrayList<Object>();
 		Shapie.checkCode(codeArea.getText());
 	}
 	
@@ -60,4 +62,5 @@ public class Screen extends JFrame{
 		container.add(output);
 		output.redraw();
 	}
+	
 }

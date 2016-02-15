@@ -19,6 +19,7 @@ public class Object {
 		this.type = type;
 		this.x = x;
 		this.y = y;
+		System.out.println(x);
 	}
 	
 	
