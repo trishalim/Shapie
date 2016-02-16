@@ -10,8 +10,16 @@ public class Shapie {
         code = code.replace("\n", "");
         String[] s = code.split("\\."); //statements
         for (int i=0; i<s.length; i++) {
-            System.out.println("a: "+s[i]);
-            StatementChecker.check(s[i]);
+        	try{
+        		System.out.println("a: "+s[i]);
+                StatementChecker.check(s[i]);		
+        		Screen.setError(" ");
+        	} catch (Exception e) {
+        		Screen.setError("Error on line "+(i+1));
+        		System.out.println("Error on line "+(i+1));
+        		break;
+        	}
+         
         }
         return true;
     }
