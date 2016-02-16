@@ -3,6 +3,7 @@ package shapiecompiler;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -14,6 +15,7 @@ public class Screen extends JFrame{
 	MouseAdapter listener;
 	static JPanel container;
 	static Output output;
+	static JLabel error= new JLabel();
 
 	public Screen() {
 		listener = new java.awt.event.MouseAdapter() {
@@ -35,6 +37,10 @@ public class Screen extends JFrame{
 		codeArea.setBorder(BorderFactory.createLineBorder(Color.PINK));
 		codeArea.setBounds(padding, padding, 420,height-140);
 		code.add(codeArea);
+		error.setBounds(padding, 480, 340,40);
+		error.setText(" ");
+		error.setForeground(Color.RED);
+		code.add(error);
 		JButton runBtn = new JButton("Run");
 		runBtn.setBounds(370, 480, 70, 40);
 		runBtn.addMouseListener(listener);
@@ -52,6 +58,7 @@ public class Screen extends JFrame{
 	
 	public void runBtnClicked(MouseEvent evt) {
 		setOutput();
+		Output.ObjectList = new ArrayList<Object>();
 		Shapie.checkCode(codeArea.getText());
 	}
 	
@@ -60,4 +67,9 @@ public class Screen extends JFrame{
 		container.add(output);
 		output.redraw();
 	}
+	
+	public static void setError(String err){
+		error.setText(err);
+	}
+	
 }
