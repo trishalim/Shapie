@@ -40,9 +40,7 @@ public class Output extends JPanel{
 				}
         	}else if(ObjectList.get(i).type == 't'){        		
         		displayText(ObjectList.get(i));
-
         	}
-
         }
         //draw all elements stored in objectlist
 	}
@@ -104,6 +102,10 @@ public class Output extends JPanel{
 	public void changeBG(String col){
 		Color colorbg = getColor(col);
 		this.setBackground(colorbg);
+		this.redraw();
+	}
+	
+	public void refresh(){
 		this.redraw();
 	}
 }

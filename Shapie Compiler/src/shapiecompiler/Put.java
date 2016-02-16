@@ -1,5 +1,6 @@
 package shapiecompiler;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,13 +15,13 @@ public class Put {
 		//create new object and add to Output.ObjectList
 		System.out.println("inside");
 		System.out.println(position);
+		x = Screen.output.getWidth()/2;
+		y = Screen.output.getHeight()/2;
 		if(position==null){
-			System.out.println("position settings");
-			x = Screen.output.getWidth()/2;
-			y = Screen.output.getHeight()/2;			
+			System.out.println("position settings");						
 		}else if(position!=null && position!="everywhere"){
-			x=getX(position);
-			y=getY(position);
+			x+=getX(position);
+			y+=getY(position);
 
 		}else{
 
@@ -33,8 +34,29 @@ public class Put {
 	
 	public void putShapes(String num, String size, String color, String shape, String position, String variable) {
 		//putShape loop
+		int max = 100; //pls change
+		int min = -100;
+		String newpos;
+		if(num==null){
+			Random rand = new Random();
+			int z = rand.nextInt(5 - 2 + 1) + 2;
+			num = ""+z;
+		}
+		switch(shape){
+			case "squares" : shape="square"; break;
+			case "circles" : shape="circle"; break;
+			case "triangles" : shape="triangle"; break;
+		}
 		for(int i = 0; i < Integer.parseInt(num); i++){
-			putShape(size, color, shape, position, variable);
+			if(position.equals("everywhere")){
+				Random random = new Random();
+				int x = random.nextInt(max - min + 1) + min;;
+				int y = random.nextInt(max - min + 1) + min;;
+				newpos = "(" + x +"," + y + ")"; 
+			}else{
+				newpos=position;
+			}
+			putShape(size, color, shape, newpos, variable);
 		}
 	}
 	
@@ -47,7 +69,8 @@ public class Put {
 		Object o = new Object(size, color, variable, text, 't', x, y);
 		Output.ObjectList.add(o);
 	}
-	public int getX(String position){
+	
+	public static int getX(String position){
 		int x=0;
 		boolean emp = true;
 		Pattern pos = Pattern.compile("\\d{1,10}");
@@ -61,7 +84,8 @@ public class Put {
 		
 		return x;
 	}	
-	public int getY(String position){
+	
+	public static int getY(String position){
 		int y=0;
 		boolean emp = true;
 		Pattern pos = Pattern.compile("\\d{1,10}");

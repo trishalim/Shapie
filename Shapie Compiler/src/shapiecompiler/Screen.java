@@ -15,6 +15,7 @@ public class Screen extends JFrame{
 	MouseAdapter listener;
 	static JPanel container;
 	static Output output;
+	static JLabel error= new JLabel();
 
 	public Screen() {
 		listener = new java.awt.event.MouseAdapter() {
@@ -36,6 +37,10 @@ public class Screen extends JFrame{
 		codeArea.setBorder(BorderFactory.createLineBorder(Color.PINK));
 		codeArea.setBounds(padding, padding, 420,height-140);
 		code.add(codeArea);
+		error.setBounds(padding, 480, 340,40);
+		error.setText(" ");
+		error.setForeground(Color.RED);
+		code.add(error);
 		JButton runBtn = new JButton("Run");
 		runBtn.setBounds(370, 480, 70, 40);
 		runBtn.addMouseListener(listener);
@@ -61,6 +66,10 @@ public class Screen extends JFrame{
 		output.setBounds(width/2+padding, padding, width/2-50, height-70);
 		container.add(output);
 		output.redraw();
+	}
+	
+	public static void setError(String err){
+		error.setText(err);
 	}
 	
 }
