@@ -3,13 +3,16 @@ package shapiecompiler;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -19,7 +22,7 @@ public class Screen extends JFrame{
 	private static final long serialVersionUID = 1L;
 	static int height = 600, width = 1000, padding = 10;
 	static JTextArea codeArea;
-	MouseAdapter runListener, saveListener;
+	MouseAdapter runListener, saveListener, openListener;
 	static JPanel container;
 	static Output output;
 	static JLabel error;
@@ -34,6 +37,11 @@ public class Screen extends JFrame{
         saveListener = new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
             	saveBtnClicked(evt);
+            }
+        };
+        openListener = new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            	openBtnClicked(evt);
             }
         };
 		//saving code
@@ -65,6 +73,11 @@ public class Screen extends JFrame{
 		saveBtn.setBounds(300, 480, 70, 40);
 		saveBtn.addMouseListener(saveListener);
 		code.add(saveBtn);
+		JButton openBtn = new JButton("Open");
+		openBtn.setBounds(230, 480, 70, 40);
+		openBtn.addMouseListener(openListener);
+		code.add(openBtn);
+
 		container.add(code);
 		
 		//Right JPanel for Output
@@ -125,6 +138,37 @@ public class Screen extends JFrame{
 	    	   }catch(Exception ex){
 	    		   System.out.println("Error");
                }
+	}
+	public void openBtnClicked(MouseEvent evt) {
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setFileFilter(new FileNameExtensionFilter("TEXT FILES", "txt", "text"));
+		int returnVal = fc.showOpenDialog(null);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
+			//This is where a real application would open the file.
+			try{
+
+				StringBuilder b = new StringBuilder();
+				FileReader fr = new FileReader(file);
+				BufferedReader tr=new BufferedReader(fr);
+				System.out.println("asdasd");
+				String line = tr.readLine();
+				while (line != null) {
+					b.append(line);
+					line = tr.readLine();
+					if(line!=null)
+						b.append("\n");
+				}
+				codeArea.setText(b.toString());
+				System.out.println("opening" + file.getName());				
+			}catch(Exception ex){
+				System.out.println(ex);
+			}
+
+		} else {
+				System.out.println("cancelled");
+		}
 	}
 	public void setOutput() {
 		output.setBounds(width/2+padding, padding, width/2-50, height-70);
