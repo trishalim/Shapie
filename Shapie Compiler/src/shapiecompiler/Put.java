@@ -21,8 +21,9 @@ public class Put {
 			System.out.println("position settings");						
 		}else if(position!=null && position!="everywhere"){
 			x+=getX(position);
-			y+=getY(position);
-
+			y-=getY(position);
+			System.out.println("x: "+ x);
+			System.out.println("y: "+ y);
 		}else{
 
 		}
@@ -73,7 +74,7 @@ public class Put {
 	public static int getX(String position){
 		int x=0;
 		boolean emp = true;
-		Pattern pos = Pattern.compile("\\d{1,10}");
+		Pattern pos = Pattern.compile("-?\\d{1,10}");
 		Matcher m=pos.matcher(position);
 		while(m.find()){
 			if(emp==true){
@@ -88,7 +89,7 @@ public class Put {
 	public static int getY(String position){
 		int y=0;
 		boolean emp = true;
-		Pattern pos = Pattern.compile("\\d{1,10}");
+		Pattern pos = Pattern.compile("-?\\d{1,10}");
 		Matcher m=pos.matcher(position);
 		while(m.find()){
 			if(emp==true){
