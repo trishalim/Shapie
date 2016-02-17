@@ -20,10 +20,8 @@ public class Put {
 		if(position==null){
 			System.out.println("position settings");						
 		}else if(position!=null && position!="everywhere"){
-			x+=getX(position);
-			y-=getY(position);
-			System.out.println("x: "+ x);
-			System.out.println("y: "+ y);
+			x += getX(position);
+			y -= getY(position);
 		}else{
 
 		}
@@ -63,9 +61,15 @@ public class Put {
 	
 	public void putText(String size, String color, String text, String variable, String position) {
 		//create new object and add to Output.ObjectList
-		if(position == "center"){
-			x = Screen.output.getWidth()/2;
-			y = Screen.output.getHeight()/2;
+		x = Screen.output.getWidth()/2;
+		y = Screen.output.getHeight()/2;
+		if(position==null){
+			System.out.println("position settings");						
+		}else if(position!=null && position!="everywhere"){
+			x += getX(position);
+			y -= getY(position);
+		}else{
+
 		}
 		Object o = new Object(size, color, variable, text, 't', x, y);
 		Output.ObjectList.add(o);
