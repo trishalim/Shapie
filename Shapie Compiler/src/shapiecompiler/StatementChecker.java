@@ -13,7 +13,7 @@ public class StatementChecker {
 	static Pattern colorReg = Pattern
 			.compile("(red|blue|yellow|pink|green|black)");
 	static Pattern sizeReg = Pattern.compile("(small|big)");
-	static Pattern posReg = Pattern.compile("(\\(\\d{1,10},\\d{1,10})\\)");
+	static Pattern posReg = Pattern.compile("(\\(-?\\d{1,10},-?\\d{1,10})\\)");
 	static Pattern variableReg = Pattern.compile("\"([^\"]*)\"");
 	static Pattern textReg = Pattern.compile("(\"([^\"]*)\")");
 	static Pattern[] cases;
