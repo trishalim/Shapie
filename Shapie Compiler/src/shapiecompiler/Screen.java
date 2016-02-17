@@ -4,21 +4,26 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Screen extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	static int height = 600, width = 1000, padding = 10;
 	static JTextArea codeArea;
-	MouseAdapter runListener, saveListener;
+	MouseAdapter runListener, saveListener, openListener;
 	static JPanel container;
 	static Output output;
 	static JLabel error;
@@ -30,9 +35,14 @@ public class Screen extends JFrame{
             	runBtnClicked(evt);
             }
         };
-        saveListener = new java.awt.event.MouseAdapter() {
+        	saveListener = new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
             	saveBtnClicked(evt);
+            }
+        };
+       	 	openListener = new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            	openBtnClicked(evt);
             }
         };
 		//saving code
@@ -60,15 +70,7 @@ public class Screen extends JFrame{
 		error.setText(" ");
 		error.setForeground(Color.RED);
 		code.add(error);
-		JButton saveBtn = new JButton("Save");
-		saveBtn.setBounds(295, 480, 70, 40);
-		saveBtn.addMouseListener(saveListener);
-		saveBtn.setBorder(new LineBorder(Color.gray, 1));
-		saveBtn.setFocusPainted(false);
-		saveBtn.setBackground(Color.white);
-		saveBtn.setForeground(basecol);
-		saveBtn.setFont(new Font("Courier New", Font.BOLD, 18));
-		code.add(saveBtn);
+
 		JButton runBtn = new JButton("Run");
 		runBtn.setBounds(370, 480, 70, 40);
 		runBtn.addMouseListener(runListener);
@@ -78,6 +80,26 @@ public class Screen extends JFrame{
 		runBtn.setForeground(basecol);
 		runBtn.setFont(new Font("Courier New", Font.BOLD, 18));
 		code.add(runBtn);
+		JButton saveBtn = new JButton("Save");
+		saveBtn.setBounds(295, 480, 70, 40);
+		saveBtn.addMouseListener(saveListener);
+		saveBtn.setBorder(new LineBorder(Color.gray, 1));
+		saveBtn.setFocusPainted(false);
+		saveBtn.setBackground(Color.white);
+		saveBtn.setForeground(basecol);
+		saveBtn.setFont(new Font("Courier New", Font.BOLD, 18));
+		code.add(saveBtn);
+		JButton openBtn = new JButton("Open");
+		openBtn.setBounds(220, 480, 70, 40);
+		openBtn.addMouseListener(openListener);
+		openBtn.setBorder(new LineBorder(Color.gray, 1));
+		openBtn.setFocusPainted(false);
+		openBtn.setBackground(Color.white);
+		openBtn.setForeground(basecol);
+		openBtn.setFont(new Font("Courier New", Font.BOLD, 18));
+
+		code.add(openBtn);
+
 		container.add(code);
 		
 		//Right JPanel for Output
@@ -100,15 +122,80 @@ public class Screen extends JFrame{
 	}
 	public void saveBtnClicked(MouseEvent evt) {
 		System.out.println("SAVING");
-		 int returnVal = fc.showSaveDialog(this);
-         if (returnVal == JFileChooser.APPROVE_OPTION) {
-             File file = fc.getSelectedFile();
-             //This is where a real application would save the file.
-             System.out.println("Saving: " + file.getName() + "." + "\n");
-         } else {
-        	 System.out.println("Save command cancelled by user." + "\n");
-         }
 
+		 int exInput = JOptionPane.NO_OPTION;
+		 File file = null;
+		 String text = codeArea.getText();
+		    // use a do-while and "no" to reshow the save dialog if exists
+
+		    do {
+		        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		        fc.setFileFilter(new FileNameExtensionFilter("TEXT FILES", "txt", "text"));
+		    	int returnVal = fc.showSaveDialog(null);
+		        if (returnVal != JFileChooser.APPROVE_OPTION) {
+		            return;
+		        }
+
+		        file = fc.getSelectedFile();
+		        String[] tok = file.getName().split("\\.");
+		       
+		        if (!file.getName().endsWith(".txt")) {
+		            file = new File(file.getParentFile(), tok[0] + ".txt");
+		        }
+
+		        if (file.exists()) {
+		            exInput = JOptionPane.showConfirmDialog(
+		                            null, "This file already exists, overwrite it?");
+		            if (exInput == JOptionPane.CANCEL_OPTION) {
+		                return;
+		            }
+		        }
+		    } while (file.exists() && exInput == JOptionPane.NO_OPTION);
+
+		    System.out.println(file.getName());
+	        try{
+
+	            FileWriter fw = new FileWriter(file);
+	            BufferedWriter bw = new BufferedWriter(fw);
+	            bw.write(text);
+	            bw.close();
+
+                System.out.println("saved");
+	    	   }catch(Exception ex){
+	    		   System.out.println("Error");
+               }
+	}
+	public void openBtnClicked(MouseEvent evt) {
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setFileFilter(new FileNameExtensionFilter("TEXT FILES", "txt", "text"));
+		int returnVal = fc.showOpenDialog(null);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
+			//This is where a real application would open the file.
+			try{
+
+				StringBuilder b = new StringBuilder();
+				FileReader fr = new FileReader(file);
+				BufferedReader tr=new BufferedReader(fr);
+				System.out.println("asdasd");
+				String line = tr.readLine();
+				while (line != null) {
+					b.append(line);
+					line = tr.readLine();
+					if(line!=null)
+						b.append("\n");
+				}
+				tr.close();
+				codeArea.setText(b.toString());
+				System.out.println("opening" + file.getName());				
+			}catch(Exception ex){
+				System.out.println(ex);
+			}
+
+		} else {
+				System.out.println("cancelled");
+		}
 	}
 	public void setOutput() {
 		output.redraw();
