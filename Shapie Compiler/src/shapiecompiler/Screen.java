@@ -3,10 +3,16 @@ package shapiecompiler;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Screen extends JFrame{
 	
@@ -51,14 +57,14 @@ public class Screen extends JFrame{
 		error.setText(" ");
 		error.setForeground(Color.RED);
 		code.add(error);
-		JButton saveBtn = new JButton("Save");
-		saveBtn.setBounds(300, 480, 70, 40);
-		saveBtn.addMouseListener(saveListener);
-		code.add(saveBtn);
 		JButton runBtn = new JButton("Run");
 		runBtn.setBounds(370, 480, 70, 40);
 		runBtn.addMouseListener(runListener);
 		code.add(runBtn);
+		JButton saveBtn = new JButton("Save");
+		saveBtn.setBounds(300, 480, 70, 40);
+		saveBtn.addMouseListener(saveListener);
+		code.add(saveBtn);
 		container.add(code);
 		
 		//Right JPanel for Output
@@ -77,15 +83,48 @@ public class Screen extends JFrame{
 	}
 	public void saveBtnClicked(MouseEvent evt) {
 		System.out.println("SAVING");
-		 int returnVal = fc.showSaveDialog(this);
-         if (returnVal == JFileChooser.APPROVE_OPTION) {
-             File file = fc.getSelectedFile();
-             //This is where a real application would save the file.
-             System.out.println("Saving: " + file.getName() + "." + "\n");
-         } else {
-        	 System.out.println("Save command cancelled by user." + "\n");
-         }
 
+		 int exInput = JOptionPane.NO_OPTION;
+		 File file = null;
+		 String text = codeArea.getText();
+		    // use a do-while and "no" to reshow the save dialog if exists
+
+		    do {
+		        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		        fc.setFileFilter(new FileNameExtensionFilter("TEXT FILES", "txt", "text"));
+		    	int returnVal = fc.showSaveDialog(null);
+		        if (returnVal != JFileChooser.APPROVE_OPTION) {
+		            return;
+		        }
+
+		        file = fc.getSelectedFile();
+		        String[] tok = file.getName().split("\\.");
+		       
+		        if (!file.getName().endsWith(".txt")) {
+		            file = new File(file.getParentFile(), tok[0] + ".txt");
+		        }
+
+		        if (file.exists()) {
+		            exInput = JOptionPane.showConfirmDialog(
+		                            null, "This file already exists, overwrite it?");
+		            if (exInput == JOptionPane.CANCEL_OPTION) {
+		                return;
+		            }
+		        }
+		    } while (file.exists() && exInput == JOptionPane.NO_OPTION);
+
+		    System.out.println(file.getName());
+	        try{
+
+	            FileWriter fw = new FileWriter(file);
+	            BufferedWriter bw = new BufferedWriter(fw);
+	            bw.write(text);
+	            bw.close();
+
+                System.out.println("saved");
+	    	   }catch(Exception ex){
+	    		   System.out.println("Error");
+               }
 	}
 	public void setOutput() {
 		output.setBounds(width/2+padding, padding, width/2-50, height-70);
