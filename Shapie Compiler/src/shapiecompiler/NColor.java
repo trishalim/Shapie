@@ -5,12 +5,13 @@ import shapiecompiler.Screen;
 
 
 public class NColor {
-	public void NColor (String var, String color) {
+	public void coloring (String var, String color) {
 		for (Object o : Output.ObjectList) {
-			if(o.variable.equals(var)){
+			if(o.var!=null && o.var.equals(var)){
 				o.color = color;
 				Screen.output.refresh();
 			}
+
 		}
 	}
 }

@@ -13,20 +13,15 @@ public class Put {
 	int y;
 	public void putShape(String size, String color, String shape, String position, String variable) {
 		//create new object and add to Output.ObjectList
-		System.out.println("inside");
-		System.out.println(position);
 		x = Screen.output.getWidth()/2;
 		y = Screen.output.getHeight()/2;
 		if(position==null){
-			System.out.println("position settings");						
 		}else if(position!=null && position!="everywhere"){
 			x += getX(position);
 			y -= getY(position);
 		}else{
 
 		}
-		System.out.println(x);
-		System.out.println(y);
 		Object o = new Object(size, color, variable, shape, 's', x, y);
 		Output.ObjectList.add(o);
 	}
@@ -59,19 +54,18 @@ public class Put {
 		}
 	}
 	
-	public void putText(String size, String color, String text, String variable, String position) {
+	public void putText(String size, String color, String text, String var, String position) {
 		//create new object and add to Output.ObjectList
 		x = Screen.output.getWidth()/2;
 		y = Screen.output.getHeight()/2;
 		if(position==null){
-			System.out.println("position settings");						
 		}else if(position!=null && position!="everywhere"){
 			x += getX(position);
 			y -= getY(position);
 		}else{
 
 		}
-		Object o = new Object(size, color, variable, text, 't', x, y);
+		Object o = new Object(size, color, var, text, 't', x, y);
 		Output.ObjectList.add(o);
 	}
 	

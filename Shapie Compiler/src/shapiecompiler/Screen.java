@@ -63,8 +63,18 @@ public class Screen extends JFrame{
 		codeArea = new JTextArea();
 		codeArea.setFont(font);
 		codeArea.setBorder(BorderFactory.createLineBorder(Color.white));
-		codeArea.setBounds(padding, padding, 430,height-140);
-		code.add(codeArea);
+		codeArea.setBounds(padding, 480, 430,height-140);
+		codeArea.setLineWrap(true);
+		codeArea.setWrapStyleWord(true);
+		JScrollPane scroll = new JScrollPane (codeArea);
+		scroll.setBounds(padding, padding, 430,height-140);
+		scroll.getViewport ().setView (codeArea);
+		scroll.setBorder(BorderFactory.createLineBorder(Color.white));
+	    scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
+	    scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	    //scroll.add(codeArea);
+		code.add(scroll);
+		//code.add(codeArea);
 		error= new JLabel();
 		error.setBounds(padding, 480, 340,40);
 		error.setText(" ");
@@ -121,8 +131,6 @@ public class Screen extends JFrame{
 		Shapie.checkCode(codeArea.getText());
 	}
 	public void saveBtnClicked(MouseEvent evt) {
-		System.out.println("SAVING");
-
 		 int exInput = JOptionPane.NO_OPTION;
 		 File file = null;
 		 String text = codeArea.getText();
@@ -152,15 +160,12 @@ public class Screen extends JFrame{
 		        }
 		    } while (file.exists() && exInput == JOptionPane.NO_OPTION);
 
-		    System.out.println(file.getName());
 	        try{
 
 	            FileWriter fw = new FileWriter(file);
 	            BufferedWriter bw = new BufferedWriter(fw);
 	            bw.write(text);
 	            bw.close();
-
-                System.out.println("saved");
 	    	   }catch(Exception ex){
 	    		   System.out.println("Error");
                }
@@ -178,7 +183,6 @@ public class Screen extends JFrame{
 				StringBuilder b = new StringBuilder();
 				FileReader fr = new FileReader(file);
 				BufferedReader tr=new BufferedReader(fr);
-				System.out.println("asdasd");
 				String line = tr.readLine();
 				while (line != null) {
 					b.append(line);
@@ -188,7 +192,6 @@ public class Screen extends JFrame{
 				}
 				tr.close();
 				codeArea.setText(b.toString());
-				System.out.println("opening" + file.getName());				
 			}catch(Exception ex){
 				System.out.println(ex);
 			}

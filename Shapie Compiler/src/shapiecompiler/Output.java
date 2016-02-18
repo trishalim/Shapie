@@ -30,10 +30,8 @@ public class Output extends JPanel{
         for(int i=0; i < ObjectList.size(); i++){
         	if(ObjectList.get(i).type=='s'){
 				if (ObjectList.get(i).value.matches("square")) {
-					System.out.println("huhu");
 					drawSquare(ObjectList.get(i));
 				} else if (ObjectList.get(i).value.matches("circle")) {
-					System.out.println("huehuheue");
 					drawCircle(ObjectList.get(i));
 				} else if (ObjectList.get(i).value.matches("triangle")) {
 	        		drawTriangle(ObjectList.get(i));					
@@ -41,15 +39,14 @@ public class Output extends JPanel{
         	}else if(ObjectList.get(i).type == 't'){        		
         		displayText(ObjectList.get(i));
         	}
+
         }
         //draw all elements stored in objectlist
 	}
 	
 	public void drawCircle(Object obj){
 		g2d.setColor(getColor(obj.color));
-		System.out.println(obj.color);
 		if(obj.size.matches("big")){
-			System.out.println(obj.x);
 			g2d.fillOval(obj.x - (bigS/2), obj.y - (bigS/2), bigS, bigS);
 
 		}
